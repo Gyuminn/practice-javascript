@@ -12,14 +12,14 @@ console.log(circle.getDiameter()); // 10
 // ======================================================
 
 // 전역에서 this는 전역 객체 window를 가리킨다.
-console.log(this); // widnow
+// console.log(this); // widnow
 
 // 일반 함수 내부에서 this는 전역 객체 window를 가리킨다.
-function square(number) {
-  console.log(this); // window
-  return number * number;
-}
-square(2);
+// function square(number) {
+//   console.log(this); // window
+//   return number * number;
+// }
+// square(2);
 
 // 메서드 내부에서 this는 메서드를 호출한 객체를 가리킨다.
 const person = {
@@ -38,3 +38,14 @@ function Person(name) {
 }
 
 const me = new Person("Qbit");
+
+var value = 1;
+
+const obj = {
+  value: 100,
+  foo() {
+    setTimeout(() => console.log(this.value), 100); // 100
+  },
+};
+console.log(value);
+obj.foo();
