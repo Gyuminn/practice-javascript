@@ -9,7 +9,7 @@ const circle = {
 };
 
 console.log(circle.getDiameter()); // 10
-// ======================================================
+// ============================================================================================================
 
 // 전역에서 this는 전역 객체 window를 가리킨다.
 // console.log(this); // widnow
@@ -36,16 +36,39 @@ function Person(name) {
   this.name = name;
   console.log(this); // Person {name: 'Qbit'}
 }
-
 const me = new Person("Qbit");
-
+// ============================================================================================================
 var value = 1;
 
 const obj = {
   value: 100,
   foo() {
+    setTimeout(function () {
+      //   console.log(this); // window;
+      console.log(this.value); // 1 (nodeJS환경에서는 undefined)
+    }, 100);
+  },
+};
+obj.foo();
+
+// 화살표 함수 내부에서의 this는 상위 스코프의 this를 가리킨다.
+const arrowObj = {
+  value: 100,
+  foo() {
     setTimeout(() => console.log(this.value), 100); // 100
   },
 };
-console.log(value);
-obj.foo();
+arrowObj.foo();
+// ============================================================================================================
+
+const newPerson = {
+  name: "Qbit",
+  getName() {
+    // 메서드 내부의 this는 메서드를 호출한 객체에 바인딩 된다.
+    return this.name;
+  },
+};
+
+// 메서드 getName을 호출한 객체는 newPerson이다.
+console.log(newPerson.getName()); // Qbit
+// ============================================================================================================
