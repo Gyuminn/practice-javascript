@@ -27,3 +27,4 @@ me.sayHi(); // Hi, my name is Qbit
 
 //정적 메서드 호출
 Person.sayHello(); // Hello!
+
