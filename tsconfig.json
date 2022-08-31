@@ -6,5 +6,6 @@
         "target": "ES5",
         "lib":["ES6", "DOM"],
         "strict":true,
+        "allowJs": true,
     }
 }
