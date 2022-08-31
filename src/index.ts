@@ -1,7 +1,48 @@
-import {init, exit} from "./myPackage";
+import crypto from 'crypto';
+interface BlockShape {
+    hash:string;
+    prevHash: string;
+    height: number;
+    data: string;
+}
 
-// <파일 전체를 위한 타입 정의 생성 방법>
-// 자바스크립트 패키지를 사용하는 경우 필요한 작업(myPackage를 module처럼 불러오고싶다.)
-// 이를 위해서 정의 타입이 필요하고, myPackage.d.ts 파일에 타입정의를 추가시켜준다.
-// call signature까지 추가시켜주면 된다.
-// 삭제시켜놓음.
+class Block implements BlockShape {
+    public hash:string;
+    constructor(
+        public prevHash:string,
+        public height:number,
+        public data: string
+    ) {
+        this.hash = Block.calculateHash(prevHash, height, data);
+    }
+    static calculateHash(prevHash:string, height:number, data:string) {
+        const toHash = `${prevHash}${height}${data}`;
+        return crypto.createHash("sha256").update(toHash).digest("hex")
+    }
+}
+
+class Blockchain {
+    private blocks: Block[]
+    constructor(){
+        this.blocks = [];
+    }
+    private getPrevHash() {
+        if(this.blocks.length === 0) return ""
+        return this.blocks[this.blocks.length - 1].hash;
+    }
+    public addBlock(data:string) {
+        const newBlock = new Block(this.getPrevHash(), this.blocks.length+1, data)
+        this.blocks.push(newBlock);
+    }
+    public getBlocks() {
+         return [...this.blocks];
+    }
+}
+
+const blockchain = new Blockchain();
+
+blockchain.addBlock("First one");
+blockchain.addBlock("Second one");
+blockchain.addBlock("Third one");
+
+console.log(blockchain.getBlocks());
